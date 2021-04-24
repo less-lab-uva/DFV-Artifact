@@ -8,6 +8,9 @@ The artifact is split into several directories.
 
 - Directory `rq3` contains the code and data from our experiments for research question 3. The environment models used to evaluate DFV are available in the `RQ3 Models` directory at https://drive.google.com/drive/folders/1EPA-QaDw8SlpjAHLO4uT7WWdABIBLPtu.
 
+## RQ1
+
+## RQ2
 
 ## RQ3
 
