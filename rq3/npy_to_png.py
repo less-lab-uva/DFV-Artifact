@@ -125,7 +125,7 @@ def main():
     vae_model_path = "dronet_vae_vae.onnx"
     dronet_path = Path("benchmark/onnx/dronet.onnx")
 
-    regenerate = False
+    regenerate = True
     if regenerate:
         data = {
             "model": [],
