@@ -10,7 +10,11 @@ The artifact is split into several directories.
 
 ## RQ1
 
+*code for RQ1 and RQ2 will be available by Wed, April 28*
+
 ## RQ2
+
+*code for RQ1 and RQ2 will be available by Wed, April 28*
 
 ## RQ3
 
