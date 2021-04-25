@@ -4,8 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import torch
 import sys
-sys.path.append('../')
-from train_vae import Decoder, Network
+sys.path.append('./')
+from train_models import Network, Vae1, Vae2, Vae4
 import subprocess
 import os
 from pathlib import Path
@@ -25,7 +25,7 @@ def execute_dnnv_properties(dnn_onnx_path, backend_name, properties_path, result
         with open(results_path + '/dnnf_output/results_' + property_name + '.txt', 'w') as f:
             if backend_name == "cleverhans.ProjectedGradientDescent":
                 subprocess.run(
-                    ['timeout', "--signal=SIGINT", '3600',
+                    ['timeout', "--signal=SIGINT", '300', #default: 300 (5 mins)
                     'python', '-m', 'dnnf',
                     properties_path + '/' + filename,
                     '--network', 'N', dnn_onnx_path, 
@@ -34,7 +34,7 @@ def execute_dnnv_properties(dnn_onnx_path, backend_name, properties_path, result
                 stdout=f, stderr=f, text=True)
             elif  backend_name == "cleverhans.FastGradientSignMethod":
                 subprocess.run(
-                    ['timeout', "--signal=SIGINT", '3600',
+                    ['timeout', "--signal=SIGINT", '300', #default: 300 (5 mins)
                     'python', '-m', 'dnnf',
                     properties_path + '/' + filename,
                     '--network', 'N', dnn_onnx_path, 
@@ -43,7 +43,7 @@ def execute_dnnv_properties(dnn_onnx_path, backend_name, properties_path, result
                 stdout=f, stderr=f, text=True)
             elif  backend_name == "cleverhans.DeepFool":
                 subprocess.run(
-                    ['timeout', "--signal=SIGINT", '3600',
+                    ['timeout', "--signal=SIGINT", '300', #default: 300 (5 mins)
                     'python', '-m', 'dnnf',
                     properties_path + '/' + filename,
                     '--network', 'N', dnn_onnx_path, 
@@ -52,7 +52,7 @@ def execute_dnnv_properties(dnn_onnx_path, backend_name, properties_path, result
                 stdout=f, stderr=f, text=True)
             elif  backend_name == "cleverhans.BasicIterativeMethod":
                 subprocess.run(
-                    ['timeout', "--signal=SIGINT", '3600',
+                    ['timeout', "--signal=SIGINT", '300', #default: 300 (5 mins)
                     'python', '-m', 'dnnf',
                     properties_path + '/' + filename,
                     '--network', 'N', dnn_onnx_path, 
@@ -133,17 +133,29 @@ def main():
         return
 
     dnn_path = sys.argv[1]
-    decoder_path = sys.argv[2]
-    dnn_onnx_path = sys.argv[3]
-    properties_path = sys.argv[4]
-    results_path = sys.argv[5]
-    backend_name = sys.argv[6]
+    vae_path = sys.argv[2]
+    latent_space = int(sys.argv[3])
+    number_layer = int(sys.argv[4])
+    number_neuron = int(sys.argv[5])
+    dnn_onnx_path = sys.argv[6]
+    properties_path = sys.argv[7]
+    results_path = sys.argv[8]
+    backend_name = sys.argv[9]
 
-    dnn = torch.load(dnn_path, map_location=torch.device('cpu'))
-    decoder = torch.load(decoder_path, map_location=torch.device('cpu'))
+    dnn = Network()
+    dnn.load_state_dict(torch.load(dnn_path, map_location=torch.device('cpu')))
+
+    if number_layer == 1:
+        vae = Vae1(latent_space, number_neuron)
+    elif number_layer == 2:
+        vae = Vae2(latent_space, number_neuron)
+    else:
+        vae = Vae4(latent_space, number_neuron)
+
+    vae.load_state_dict(torch.load(vae_path, map_location=torch.device('cpu')))
     
     execute_dnnv_properties(dnn_onnx_path, backend_name, properties_path, results_path)
-    generate_results(dnn, decoder, results_path)
+    generate_results(dnn, vae.decoder, results_path)
 
 
 if __name__ == '__main__':

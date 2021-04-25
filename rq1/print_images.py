@@ -159,9 +159,9 @@ def main():
     if not os.path.exists('./images'):
         os.makedirs('./images')
 
-    # plot_img_quality_full(SSIMs, vae_ssim_test_data, './images/ce_ssim_graph_quartiles.png')
-    # plot_counter_examples_images(ces_with_highest_ssim['with_decoder'], './images/rotated_counter_examples_with_decoder_SSIM_description.png')
-    # plot_counter_examples_images(ces_with_highest_ssim['without_decoder'], './images/rotated_counter_examples_without_decoder_SSIM_description.png')
+    plot_img_quality_full(SSIMs, vae_ssim_test_data, './images/ce_ssim_graph_quartiles.png')
+    plot_counter_examples_images(ces_with_highest_ssim['with_decoder'], './images/rotated_counter_examples_with_decoder_SSIM_description.png')
+    plot_counter_examples_images(ces_with_highest_ssim['without_decoder'], './images/rotated_counter_examples_without_decoder_SSIM_description.png')
     plot_ce_times_full(counter_examples_times, './images/times_to_find_ce_all_logScale.png')
 
 
