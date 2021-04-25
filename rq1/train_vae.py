@@ -212,8 +212,7 @@ def main():
     if not os.path.exists('./saved_models'):
         os.makedirs('./saved_models')
 
-    torch.save(vae, './saved_models/vae')
-    torch.save(vae.decoder, './saved_models/decoder')
+    torch.save(vae.state_dict(), './saved_models/vae')
 
     ### Network
     network = Network().to(device)
@@ -223,7 +222,7 @@ def main():
     epochs = 20
 
     train(network, optimizer, criterion, train_loader, test_loader, epochs, device=device)
-    torch.save(network, './saved_models/network')
+    torch.save(network.state_dict(), './saved_models/network')
 
     vae = vae.to(torch.device("cpu"))
     network = network.to(torch.device("cpu"))

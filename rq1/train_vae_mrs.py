@@ -128,7 +128,7 @@ def main():
     if not os.path.exists('./saved_models'):
         os.makedirs('./saved_models')
 
-    torch.save(vae_mrs, './saved_models/vae_mrs')
+    torch.save(vae_mrs.state_dict(), './saved_models/vae_mrs')
 
 
 if __name__ == "__main__":

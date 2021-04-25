@@ -163,20 +163,18 @@ def main():
 
     ### Load models
     print("Load models")
-
-    decoder = torch.load('./saved_models/decoder', map_location=torch.device('cpu'))
-    vae = torch.load('./saved_models/vae', map_location=torch.device('cpu'))
-    network = torch.load('./saved_models/network', map_location=torch.device('cpu'))
-
+    vae = Vae(2)
+    vae.load_state_dict(torch.load('./saved_models/vae', map_location=torch.device('cpu')))
+    decoder = vae.decoder
 
     ### Load vae_mrs
     print("Load vae_mrs")
-
-    vae_mrs = torch.load('./saved_models/vae_mrs', map_location=torch.device('cpu'))
+    vae_mrs = VaeMrs(100)
+    vae_mrs.load_state_dict(torch.load('./saved_models/vae_mrs', map_location=torch.device('cpu')))
 
 
     ### Load all counter-examples
-    print("Load all counter-examples")
+    print("\nLoad all counter-examples")
 
     counter_examples = dict()
 
@@ -197,7 +195,7 @@ def main():
 
 
     ### Calculate MSE of counter-examples
-    print("Calculate MSE of counter-examples")
+    print("\nCalculate MSE of counter-examples")
 
     MSEs = dict()
     for t, tool in enumerate(['BIM','DeepFool','FGSM','PGD','Neurify','Nnenum','Verinet']):
@@ -216,7 +214,7 @@ def main():
 
 
     ### Calculate VAE MSE on test set
-    print("Calculate VAE MSE on test set")
+    print("\nCalculate VAE MSE on test set")
 
     vae_mse_test_data, _ = mse_1000(vae, test.reshape(10000,784))
 
@@ -228,7 +226,7 @@ def main():
 
 
     ### Calculate SSIM of counter-examples
-    print("Calculate SSIM of counter-examples")
+    print("\nCalculate SSIM of counter-examples")
 
     SSIMs = dict()
     for t, tool in enumerate(['BIM','DeepFool','FGSM','PGD','Neurify','Nnenum','Verinet']):
@@ -247,7 +245,7 @@ def main():
 
 
     ### Calculate VAE SSIM on test set
-    print("Calculate VAE SSIM on test set")
+    print("\nCalculate VAE SSIM on test set")
 
     vae_ssim_test_data, _ = ssim.ssim_100(vae, test.reshape(10000,784))
 
@@ -259,7 +257,7 @@ def main():
 
 
     ### Load counter-examples times
-    print("Load counter-examples times")
+    print("\nLoad counter-examples times")
 
     counter_examples_times = scrap_counter_examples_times()
 
@@ -271,7 +269,7 @@ def main():
 
 
     # Load properties status
-    print("Load properties status")
+    print("\nLoad properties status")
 
     tools = {
         'Falsifiers': ['PGD', 'BIM', 'FGSM', 'DeepFool'],
@@ -294,7 +292,7 @@ def main():
 
 
     # Get the counter-examaples with lowest MSE for each property
-    print("Get the counter-examaples with lowest MSE for each property")
+    print("\nGet the counter-examaples with lowest MSE for each property")
 
     ces_with_lowest_mse = {
         'with_decoder': [],
@@ -333,7 +331,7 @@ def main():
 
 
     # Get the counter-examaples with highest SSIM for each property
-    print("Get the counter-examaples with highest SSIM for each property")
+    print("\nGet the counter-examaples with highest SSIM for each property")
 
     ces_with_highest_ssim = {
         'with_decoder': [],

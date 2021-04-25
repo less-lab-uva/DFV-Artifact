@@ -13,7 +13,7 @@ if [[ "$tool" == "all" || "$tool" == "neurify" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnv_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Verifiers/Neurify/run$run/property$property/resultsDNN \
@@ -21,7 +21,7 @@ if [[ "$tool" == "all" || "$tool" == "neurify" ]]; then
                 else
                     python ./common/dnnv_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Verifiers/Neurify/run$run/property$property/results \
@@ -41,7 +41,7 @@ if [[ "$tool" == "all" || "$tool" == "nnenum" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnv_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Verifiers/Nnenum/run$run/property$property/resultsDNN \
@@ -49,7 +49,7 @@ if [[ "$tool" == "all" || "$tool" == "nnenum" ]]; then
                 else
                     python ./common/dnnv_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Verifiers/Nnenum/run$run/property$property/results \
@@ -69,7 +69,7 @@ if [[ "$tool" == "all" || "$tool" == "verinet" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnv_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Verifiers/Verinet/run$run/property$property/resultsDNN \
@@ -77,7 +77,7 @@ if [[ "$tool" == "all" || "$tool" == "verinet" ]]; then
                 else
                     python ./common/dnnv_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Verifiers/Verinet/run$run/property$property/results \

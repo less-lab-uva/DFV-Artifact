@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import torch
 import sys
 sys.path.append('../')
-from train_vae import Decoder, Network
+from train_vae import Vae, Network
 import subprocess
 import os
 from pathlib import Path
@@ -105,17 +105,20 @@ def main():
         return
 
     dnn_path = sys.argv[1]
-    decoder_path = sys.argv[2]
+    vae_path = sys.argv[2]
     dnn_onnx_path = sys.argv[3]
     properties_path = sys.argv[4]
     results_path = sys.argv[5]
     verifier_name = sys.argv[6]
 
-    dnn = torch.load(dnn_path, map_location=torch.device('cpu'))
-    decoder = torch.load(decoder_path, map_location=torch.device('cpu'))
+    dnn = Network()
+    dnn.load_state_dict(torch.load(dnn_path, map_location=torch.device('cpu')))
+
+    vae = Vae(2)
+    vae.load_state_dict(torch.load(vae_path, map_location=torch.device('cpu')))
     
     execute_dnnv_properties(dnn_onnx_path, verifier_name, properties_path, results_path)
-    generate_results(dnn, decoder, results_path)
+    generate_results(dnn, vae.decoder, results_path)
 
 
 if __name__ == '__main__':

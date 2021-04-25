@@ -13,7 +13,7 @@ if [[ "$tool" == "all" || "$tool" == "deepfool" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Falsifiers/DeepFool/run$run/property$property/resultsDNN \
@@ -21,7 +21,7 @@ if [[ "$tool" == "all" || "$tool" == "deepfool" ]]; then
                 else
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Falsifiers/DeepFool/run$run/property$property/results \
@@ -41,7 +41,7 @@ if [[ "$tool" == "all" || "$tool" == "bim" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Falsifiers/BIM/run$run/property$property/resultsDNN \
@@ -49,7 +49,7 @@ if [[ "$tool" == "all" || "$tool" == "bim" ]]; then
                 else
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Falsifiers/BIM/run$run/property$property/results \
@@ -69,7 +69,7 @@ if [[ "$tool" == "all" || "$tool" == "fgsm" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Falsifiers/FGSM/run$run/property$property/resultsDNN \
@@ -77,7 +77,7 @@ if [[ "$tool" == "all" || "$tool" == "fgsm" ]]; then
                 else
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Falsifiers/FGSM/run$run/property$property/results \
@@ -97,7 +97,7 @@ if [[ "$tool" == "all" || "$tool" == "pgd" ]]; then
                 if [[ $model_type == 0 ]]; then
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/network.onnx \
                         ./properties/final_properties_dnn$property \
                         ./output/Falsifiers/PGD/run$run/property$property/resultsDNN \
@@ -105,7 +105,7 @@ if [[ "$tool" == "all" || "$tool" == "pgd" ]]; then
                 else
                     python ./common/dnnf_pipeline.py \
                         ./saved_models/network \
-                        ./saved_models/decoder \
+                        ./saved_models/vae \
                         ./saved_models/onnx/modifiedDnn.onnx \
                         ./properties/final_properties$property \
                         ./output/Falsifiers/PGD/run$run/property$property/results \
