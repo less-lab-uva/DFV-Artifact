@@ -331,7 +331,7 @@ def main():
     optimizer = optim.RMSprop(network.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
 
-    epochs = 1
+    epochs = 20
 
     train(network, optimizer, criterion, train_loader, test_loader, epochs, device=device)
     
@@ -349,7 +349,7 @@ def main():
 
 
     ### VAEs
-    epochs = 1
+    epochs = 100
 
     for latent_space in [1,2,4,8,16,32]:
 

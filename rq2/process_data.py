@@ -151,25 +151,6 @@ def scrap_times_ls():
 
 def main():
 
-    # # Test data
-    # test_data = datasets.FashionMNIST(
-    #     root='.data/FashionMNIST',
-    #     train=False,
-    #     download=True,
-    #     transform=transforms.Compose([transforms.ToTensor()])
-    # )
-
-    # # Test data loader
-    # test_loader = DataLoader(
-    #     test_data,
-    #     batch_size=10000,
-    #     shuffle=False
-    # )
-
-    # dataiter = iter(test_loader)
-    # test, test_labels = dataiter.next()
-
-
     ### Load models
     print("Load models")
     vaes, decoders = load_models();
@@ -221,30 +202,6 @@ def main():
     f.close()
 
 
-    # ### Calculate models MSE on test data
-    # print("\nCalculate models MSE on test data")
-    # models_mse = list()
-    # for latent_space in [1,2,4,8,16,32]:
-    #     print("Latent space: "+str(latent_space))
-    #     sub_models_mse = list()
-    #     for number_layer in [1,2,4]:
-    #         for number_neuron in [16,32,64,128,256]:
-    #             print("# Layer: "+str(number_layer)+' - # Neurons: '+str(number_neuron), end =" ")
-    #             start_t = time.time()
-
-    #             aux_mse, aux_mse_mean = mse_1000(vaes[latent_space][number_layer][number_neuron], test.reshape(10000,784))
-    #             sub_models_mse.append(aux_mse)
-
-    #             end_t = time.time()
-    #             duration = end_t - start_t
-    #             print("Duration: "+str(duration))
-    #     models_mse.append(sub_models_mse)
-
-    # f = open("./processed_data/multidim_models_mse_final.pkl","wb")
-    # pickle.dump(models_mse,f)
-    # f.close()
-
-
     ### Calculate SSIM of counter-examples
     print("\nCalculate SSIM of counter-examples")
     SSIMs = dict()
@@ -267,30 +224,6 @@ def main():
     f = open("./processed_data/multidim_SSIMs_100_final.pkl","wb")
     pickle.dump(SSIMs,f)
     f.close()
-
-
-    # ### Calculate models SSIM on test data
-    # print("\nCalculate models SSIM on test data")
-    # models_ssim = list()
-    # for latent_space in [1,2,4,8,16,32]:
-    #     print("Latent space: "+str(latent_space))
-    #     sub_models_ssim = list()
-    #     for number_layer in [1,2,4]:
-    #         for number_neuron in [16,32,64,128,256]:
-    #             print("# Layer: "+str(number_layer)+' - # Neurons: '+str(number_neuron), end =" ")
-    #             start_t = time.time()
-
-    #             aux_ssim, aux_ssim_mean = ssim.ssim_100(vaes[latent_space][number_layer][number_neuron], test.reshape(10000,784))
-    #             sub_models_ssim.append(aux_ssim.mean(axis=0))
-
-    #             end_t = time.time()
-    #             duration = end_t - start_t
-    #             print("Duration: "+str(duration))
-    #     models_ssim.append(sub_models_ssim)
-
-    # f = open("./processed_data/multidim_models_ssim_final.pkl","wb")
-    # pickle.dump(models_ssim,f)
-    # f.close()
 
 
     ### Load counter-examples times

@@ -39,55 +39,65 @@ def scrap_counter_examples(output_file, decoder):
     counter_examples_with_decoder = []
     counter_examples_without_decoder = []
 
-    sbatch_outputs = ["test1.err","test1.output","test2.err","test2.output"]
+    if os.path.exists(output_file):
+        for i, run in enumerate(sorted(os.listdir(output_file))):
+            f_path = output_file+'/'+run
+            if os.path.exists(f_path):
+                for j, property_file in enumerate(sorted(os.listdir(f_path))):
+                    f_path = output_file + '/'+property_file
+                    if os.path.exists(f_path):
+                        for l, r_type in enumerate(sorted(os.listdir(f_path))):
+                            f_path = output_file +'/'+r_type+'/counter_examples/'
+                            if os.path.exists(f_path):
+                                for k, ce_name in enumerate(sorted(os.listdir(f_path))):
+                                    ce = np.load(f_path + ce_name)
 
-    for i, run in enumerate(sorted(os.listdir('./'+output_file))):
-        if run not in sbatch_outputs:
-            for j, property_file in enumerate(sorted(os.listdir('./'+output_file+'/'+run+'/'))):
-                for l, r_type in enumerate(sorted(os.listdir('./'+output_file+'/'+run+'/'+property_file+'/'))):
-                    ce_path = './'+output_file+'/'+run+'/'+property_file+'/'+r_type+'/counter_examples/'
-                    for k, ce_name in enumerate(sorted(os.listdir(ce_path))):
-                        ce = np.load(ce_path + ce_name)
-
-                        if r_type == 'results':
-                            counter_examples_with_decoder.append(decode_ce(ce, decoder))
-                        if r_type == 'resultsDNN':
-                            counter_examples_without_decoder.append(ce)
+                                    if r_type == 'results':
+                                        counter_examples_with_decoder.append(decode_ce(ce, decoder))
+                                    if r_type == 'resultsDNN':
+                                        counter_examples_without_decoder.append(ce)
     
     return counter_examples_with_decoder, counter_examples_without_decoder
 
 
-def scrap_counter_examples_times(timeouts=False):
+def scrap_counter_examples_times():
 
     counter_examples_times = dict()
     types = ['with_decoder', 'without_decoder']
 
-    sbatch_outputs = ["test1.err","test1.output","test2.err","test2.output"]
-
     for tool in ['Falsifiers', 'Verifiers']:
         counter_examples_times[tool] = dict()
 
-        for tool_name in os.listdir('./output/'+tool):
-            counter_examples_times[tool][tool_name] = dict()
-            counter_examples_times[tool][tool_name][types[0]] = list()
-            counter_examples_times[tool][tool_name][types[1]] = list()
+        f_path = './output/'+tool
+        if os.path.exists(f_path):
+            for tool_name in os.listdir(f_path):
+                counter_examples_times[tool][tool_name] = dict()
+                counter_examples_times[tool][tool_name][types[0]] = list()
+                counter_examples_times[tool][tool_name][types[1]] = list()
 
-            for r, run in enumerate(sorted(os.listdir('./output/'+tool+'/'+tool_name+'/'))):
-                if run not in sbatch_outputs:
-                    for pf, property_file in enumerate(sorted(os.listdir('./output/'+tool+'/'+tool_name+'/'+run+'/'))):
-                        for rt, r_type in enumerate(sorted(os.listdir('./output/'+tool+'/'+tool_name+'/'+run+'/'+property_file+'/'))):
-                            
-                            summary = open('./output/'+tool+'/'+tool_name+'/'+run+'/'+property_file+'/'+r_type+'/result_summary.md', 'r')
-                            aux_status = ''
+                f_path = f_path + '/' + tool_name
+                if os.path.exists(f_path):
+                    for r, run in enumerate(sorted(os.listdir(f_path))):
+                        f_path = f_path + '/' + run
+                        if os.path.exists(f_path):
+                            for pf, property_file in enumerate(sorted(os.listdir(f_path))):
+                                f_path = f_path + '/' + property_file
+                                if os.path.exists(f_path):
+                                    for rt, r_type in enumerate(sorted(os.listdir(f_path))):
+                                        f_path = f_path + '/'+r_type+'/result_summary.md'
+                                        if os.path.exists(f_path):
 
-                            for l in summary:
-                                if '##Status:' in l:
-                                    aux_status = l.split(' ')[-1].split('\n')[0]
-                                if '###Time:' in l:
-                                    if aux_status == 'sat':
-                                        counter_examples_times[tool][tool_name][types[rt]].append(float(l.split(' ')[-1]))
-                                    aux_status = ''
-                            summary.close()
+                                            summary = open(f_path, 'r')
+                                            aux_status = ''
+
+                                            for l in summary:
+                                                if '##Status:' in l:
+                                                    aux_status = l.split(' ')[-1].split('\n')[0]
+                                                if '###Time:' in l:
+                                                    if aux_status == 'sat':
+                                                        counter_examples_times[tool][tool_name][types[rt]].append(float(l.split(' ')[-1]))
+                                                    aux_status = ''
+                                            summary.close()
     
     return counter_examples_times
 
@@ -96,24 +106,26 @@ def scrap_counter_examples_status(output_file, prop=2):
     ### runs / models / properties
     property_status = np.array([[["timeout"]*5] * 2] * 10, dtype = 'object')
 
-    sbatch_outputs = ["test1.err","test1.output","test2.err","test2.output"]
-
-    for i, run in enumerate(sorted(os.listdir('./'+output_file))):
-        if run not in sbatch_outputs:
-            for j, r_type in enumerate(sorted(os.listdir('./'+output_file+'/'+run+'/property'+str(prop)+'/'))):
-                summary = open('./'+output_file+'/'+run+'/property'+str(prop)+'/'+r_type+'/result_summary.md', 'r')
-                for l in summary:
-                        if "#Property" in l:
-                            aux = int(l.split(' ')[-1])
-                        if '##Status:' in l:
-                            if 'NeurifyError' in l:
-                                property_status[aux][j][i] = 'error'
-                            elif 'NnenumTranslatorError' in l:
-                                property_status[aux][j][i] = 'error'
-                            elif 'NnenumError' in l:
-                                property_status[aux][j][i] = 'error'
-                            else:
-                                property_status[aux][j][i] = l.split(' ')[-1].split('\n')[0]
+    if os.path.exists(output_file):
+        for i, run in enumerate(sorted(os.listdir(output_file))):
+            f_path = output_file+'/'+run+'/property'+str(prop)
+            if os.path.exists(f_path):
+                for j, r_type in enumerate(sorted(os.listdir(f_path))):
+                    f_path = f_path + '/'+r_type+'/result_summary.md'
+                    if os.path.exists(f_path):
+                        summary = open(f_path, 'r')
+                        for l in summary:
+                                if "#Property" in l:
+                                    aux = int(l.split(' ')[-1])
+                                if '##Status:' in l:
+                                    if 'NeurifyError' in l:
+                                        property_status[aux][j][i] = 'error'
+                                    elif 'NnenumTranslatorError' in l:
+                                        property_status[aux][j][i] = 'error'
+                                    elif 'NnenumError' in l:
+                                        property_status[aux][j][i] = 'error'
+                                    else:
+                                        property_status[aux][j][i] = l.split(' ')[-1].split('\n')[0]
     return property_status
 
 
@@ -122,19 +134,19 @@ def scrap_specific_counter_examples(output_file, property_type, ce_number, decod
     counter_examples_with_decoder = []
     counter_examples_without_decoder = []
 
-    sbatch_outputs = ["test1.err","test1.output","test2.err","test2.output"]
+    if os.path.exists(output_file):
+        for i, run in enumerate(sorted(os.listdir(output_file))):
+            f_path = output_file+'/'+run+'/property'+str(property_type)
+            if os.path.exists(f_path):
+                for l, r_type in enumerate(sorted(os.listdir(f_path))):
+                    f_path = f_path + '/'+r_type+'/counter_examples/ce_property' + str(ce_number) + '.npy'
+                    if os.path.exists(f_path):
+                        ce = np.load(f_path)
 
-    for i, run in enumerate(sorted(os.listdir('./'+output_file))):
-        if run not in sbatch_outputs:
-            for l, r_type in enumerate(sorted(os.listdir('./'+output_file+'/'+run+'/property'+str(property_type)+'/'))):
-                ce_path = './'+output_file+'/'+run+'/property'+str(property_type)+'/'+r_type+'/counter_examples/ce_property' + str(ce_number) + '.npy'
-                if os.path.isfile(ce_path):
-                    ce = np.load(ce_path)
-
-                    if r_type == 'results':
-                        counter_examples_with_decoder.append(decode_ce(ce, decoder))
-                    if r_type == 'resultsDNN':
-                        counter_examples_without_decoder.append(ce)
+                        if r_type == 'results':
+                            counter_examples_with_decoder.append(decode_ce(ce, decoder))
+                        if r_type == 'resultsDNN':
+                            counter_examples_without_decoder.append(ce)
     
     return counter_examples_with_decoder, counter_examples_without_decoder
 
@@ -185,7 +197,11 @@ def main():
         else:
             tool_type = "Verifiers"
 
-        counter_examples[tool]['with_decoder'], counter_examples[tool]['without_decoder'] = scrap_counter_examples(output_file="./output/"+tool_type+"/"+tool, decoder=decoder)
+        f_path = "./output/"+tool_type+"/"+tool## INSIDE scrap_counter_examples
+        if os.path.exists(f_path):
+            counter_examples[tool]['with_decoder'], counter_examples[tool]['without_decoder'] = scrap_counter_examples(output_file=f_path, decoder=decoder)
+        else:
+            counter_examples[tool]['with_decoder'], counter_examples[tool]['without_decoder'] = [], []
 
     if not os.path.exists('./processed_data'):
         os.makedirs('./processed_data')
