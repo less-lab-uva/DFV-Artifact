@@ -100,3 +100,10 @@ Running all of the above scripts can be time-consuming. We provide a script `dow
 - `./models` will be created when running any of the training scripts (or downloading the models).
 - `./logs/falsification_logs` will be created when running `falsify.sh`.
 - `./Data` will be created when running `python download_data.py`, and contains the pre-processed DroNet dataset.
+
+## Acknowledgements
+- [DNNF](https://github.com/dlshriver/DNNF)
+- [DNNV](https://github.com/dlshriver/DNNV)
+- [DroNet](https://github.com/uzh-rpg/rpg_public_dronet)
+- [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist)
+- [pytorch-ssim](https://github.com/Po-Hsun-Su/pytorch-ssim)
