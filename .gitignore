@@ -141,3 +141,10 @@ cython_debug/
 */saved_models
 */output
 */processed_data
+
+.vscode/
+
+DNNV/
+rq3/models/
+rq3/Data/
+rq3/logs/

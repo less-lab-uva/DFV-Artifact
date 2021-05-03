@@ -17,6 +17,7 @@ from torchvision.utils import make_grid, save_image
 from typing import List
 
 NAME = "vae"
+Path("models").mkdir(exist_ok=True, parents=True)
 Path(f"samples_{NAME}").mkdir(exist_ok=True, parents=True)
 Path(f"samples_{NAME}/iter").mkdir(exist_ok=True, parents=True)
 Path(f"samples_{NAME}/epoch").mkdir(exist_ok=True, parents=True)
@@ -286,7 +287,11 @@ def load_data(path, batch_size=225, shuffle=False):
     dataset = Dronet(path, transform=transform)
 
     return data.DataLoader(
-        dataset, batch_size=batch_size, shuffle=shuffle, num_workers=1, pin_memory=True,
+        dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=1,
+        pin_memory=True,
     )
 
 
@@ -354,9 +359,7 @@ def train(
 
 
 def main():
-    train_loader = load_data(
-        "Data/dronet.200/training/", batch_size=64, shuffle=True
-    )
+    train_loader = load_data("Data/dronet.200/training/", batch_size=64, shuffle=True)
     print(train_loader.dataset)
 
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -369,7 +372,7 @@ def main():
     torch.onnx.export(
         model,
         torch.randn(1, 1, 200, 200),
-        f"dronet_{NAME}_vae.onnx",
+        f"models/dronet_{NAME}_vae.onnx",
         input_names=["input"],
         output_names=["output"],
         dynamic_axes={"input": [0], "output": [0]},
@@ -377,7 +380,7 @@ def main():
     torch.onnx.export(
         Decoder(model),
         torch.randn(1, model.latent_dim),
-        f"dronet_{NAME}_vae_decoder.onnx",
+        f"models/dronet_{NAME}_vae_decoder.onnx",
         input_names=["input"],
         output_names=["output"],
         dynamic_axes={"input": [0], "output": [0]},

@@ -119,11 +119,11 @@ def main():
     plt.close()
 
     generative_models = {
-        "vae+dnn": parse(Path("dronet_fc_vae_decoder.onnx")),
-        "gan+dnn": parse(Path("dronet_dcgan_generator.onnx")),
+        "vae+dnn": parse(Path("models/dronet_fc_vae_decoder.onnx")),
+        "gan+dnn": parse(Path("models/dronet_dcgan_generator.onnx")),
     }
-    # vae_model_path = "dronet_fc_vae.onnx"
-    vae_model_path = "dronet_vae_vae.onnx"
+    # vae_model_path = "models/dronet_fc_vae.onnx"
+    vae_model_path = "models/dronet_vae_vae.onnx"
     dronet_path = Path("benchmark/onnx/dronet.onnx")
 
     regenerate = False

@@ -17,6 +17,7 @@ from torchvision.utils import make_grid, save_image
 from typing import List
 
 NAME = "dcgan"
+Path("models").mkdir(exist_ok=True, parents=True)
 Path(f"samples_{NAME}").mkdir(exist_ok=True, parents=True)
 Path(f"samples_{NAME}/iter").mkdir(exist_ok=True, parents=True)
 Path(f"samples_{NAME}/epoch").mkdir(exist_ok=True, parents=True)
@@ -350,9 +351,7 @@ def train(
 
 
 def main():
-    train_loader = load_data(
-        "Data/dronet.200/training/", batch_size=64, shuffle=True
-    )
+    train_loader = load_data("Data/dronet.200/training/", batch_size=64, shuffle=True)
     print(train_loader.dataset)
 
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
@@ -374,7 +373,7 @@ def main():
     torch.onnx.export(
         generator,
         torch.randn(1, generator.latent_dim),
-        f"dronet_{NAME}_generator.onnx",
+        f"models/dronet_{NAME}_generator.onnx",
         input_names=["input"],
         output_names=["output"],
         dynamic_axes={"input": [0], "output": [0]},
@@ -383,7 +382,7 @@ def main():
     torch.onnx.export(
         discriminator,
         torch.randn(1, *generator.img_shape),
-        f"dronet_{NAME}_discriminator.onnx",
+        f"models/dronet_{NAME}_discriminator.onnx",
         input_names=["input"],
         output_names=["output"],
         dynamic_axes={"input": [0], "output": [0]},
