@@ -66,7 +66,7 @@ def plot_img_quality_full(SSIMs, vae_ssim, output_path, ax=None):
     plt.savefig(output_path,bbox_inches='tight')
 
 
-def plot_counter_examples_images(ces_with_metric, output_path):
+def plot_counter_examples_images_rotated(ces_with_metric, output_path):
     fig, axs = plt.subplots(7,10)
     fig.set_figheight(7)
     fig.set_figwidth(10)
@@ -90,6 +90,35 @@ def plot_counter_examples_images(ces_with_metric, output_path):
             axs[j][i].axes.get_xaxis().set_visible(False)
             axs[j][i].set_yticks([])
             axs[j,i].imshow(ces_with_metric[i+5][j].reshape(28,28), cmap='gray')
+
+    plt.savefig(output_path,bbox_inches='tight')
+
+
+def plot_counter_examples_images(ces_with_metric, output_path):
+    fig, axs = plt.subplots(10,7)
+    fig.set_figheight(10)
+    fig.set_figwidth(7)
+    plt.subplots_adjust(wspace=0.05, hspace=0.05)
+
+    for i in range(5):
+        for j in range(7):
+            if i == 0:
+                axs[i,j].set_title(['DeepFool', 'BIM', 'FGSM', 'PGD', 'Neurify', 'Nnenum', 'Verinet'][j])
+            if j == 0:
+                axs[i,j].set_ylabel("A-"+str(i)+'      ', rotation=0)
+
+            axs[i][j].axes.get_xaxis().set_visible(False)
+            axs[i][j].set_yticks([])
+            axs[i,j].imshow(ces_with_metric[i][j].reshape(28,28), cmap='gray')
+
+    for i in range(5,10):
+        for j in range(7):
+            if j == 0:
+                axs[i,j].set_ylabel("B-"+str(i-5)+'      ', rotation=0)
+
+            axs[i][j].axes.get_xaxis().set_visible(False)
+            axs[i][j].set_yticks([])
+            axs[i,j].imshow(ces_with_metric[i+5][j].reshape(28,28), cmap='gray')
 
     plt.savefig(output_path,bbox_inches='tight')
 
@@ -160,8 +189,10 @@ def main():
         os.makedirs('./images')
 
     plot_img_quality_full(SSIMs, vae_ssim_test_data, './images/ce_ssim_graph_quartiles.png')
-    plot_counter_examples_images(ces_with_highest_ssim['with_decoder'], './images/rotated_counter_examples_with_decoder_SSIM_description.png')
-    plot_counter_examples_images(ces_with_highest_ssim['without_decoder'], './images/rotated_counter_examples_without_decoder_SSIM_description.png')
+    plot_counter_examples_images_rotated(ces_with_highest_ssim['with_decoder'], './images/rotated_counter_examples_with_decoder_SSIM_description.png')
+    plot_counter_examples_images_rotated(ces_with_highest_ssim['without_decoder'], './images/rotated_counter_examples_without_decoder_SSIM_description.png')
+    plot_counter_examples_images(ces_with_highest_ssim['with_decoder'], './images/counter_examples_with_decoder_SSIM_description.png')
+    plot_counter_examples_images(ces_with_highest_ssim['without_decoder'], './images/counter_examples_without_decoder_SSIM_description.png')
     plot_ce_times_full(counter_examples_times, './images/times_to_find_ce_all_logScale.png')
 
 

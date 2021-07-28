@@ -137,10 +137,17 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# CUSTOM
 *.data
+*/Data
 */saved_models
 */output
 */processed_data
+images_old/
+processed_data_old/
+rq1.zip
+rq2.zip
+rq3.zip
 
 .vscode/
 

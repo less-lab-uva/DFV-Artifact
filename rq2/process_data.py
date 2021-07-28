@@ -283,7 +283,7 @@ def main():
         duration = end_t - start_t
         print("Duration: "+str(duration))
 
-    f = open("./others/processed_data/ls_SSIMs_100.pkl","wb")
+    f = open("./processed_data/ls_SSIMs_100.pkl","wb")
     pickle.dump(SSIMs,f)
     f.close()
 
