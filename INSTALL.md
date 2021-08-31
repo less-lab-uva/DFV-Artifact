@@ -1,6 +1,11 @@
 # Installation
 
-To run the code, first make sure you have python 3+ and gcc 7+ installed and run `./install.sh`. This will set up a python virtual environment and install the necessary dependencies. After install, run `source ./activate` to activate the virtual environment.
+To run the code, first make sure you have the following packages installed:
+- python 3.7
+- python 3 venv
+- gcc 7+
+
+Then begin the installation by running `./install.sh`. This will set up a python virtual environment and install the necessary dependencies. After install, run `source ./activate.sh` to activate the virtual environment.
 
 `./install.sh` will install DNNV and DNNF. For DNNV, three verifiers will be installed: Neurify, nnenum and Verinet. After the installation ends, you can check if DNNV was installed correctly by running `dnnv --help`. You should see the name of the 3 verifiers under the **'verifiers'** section. Also you can check if DNNF was installed correctly by running `dnnf --help`.
 

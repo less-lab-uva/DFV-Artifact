@@ -2,10 +2,6 @@
 
 This is the artifact to accompany the ASE technical track submission "Distribution Models for Falsification and Verification of DNNs".
 
-<!-- Due to the size of trained models, we could not include them in this repository. The trained models used to evaluate DFV are available here: https://drive.google.com/drive/folders/1EPA-QaDw8SlpjAHLO4uT7WWdABIBLPtu -->
-
-<!-- To run the code, first run `./install.sh`. This will set up a python virtual environment and install the necessary dependencies. After install, run `source ./activate` to activate the virtual environment. -->
-
 The artifact is split into several directories.
 
 - Directory `rq1` contains the code and data from our experiments for research question 1. The environment models used to evaluate DFV, verifiers and falsifiers outputs, and processed data can be downloaded by running `python download.py` from within the `rq1` directory.
