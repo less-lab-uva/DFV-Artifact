@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Toledo"
+  given-names: "Felipe"
+  orcid: "https://orcid.org/0000-0002-5632-7518"
+  website: "https://felipetoledo4815.github.io/"
+- family-names: "Shriver"
+  given-names: "David"
+  orcid: "https://orcid.org/0000-0003-0208-6517"
+  website: "https://davidshriver.me"
+title: "DFV"
+doi: "10.5281/zenodo.5347675"
+date-released: 2021-08-31
+url: "https://github.com/less-lab-uva/DFV-Artifact"
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Toledo"
+    given-names: "Felipe"
+    orcid: "https://orcid.org/0000-0002-5632-7518"
+    website: "https://felipetoledo4815.github.io/"
+  - family-names: "Shriver"
+    given-names: "David"
+    orcid: "https://orcid.org/0000-0003-0208-6517"
+    website: "https://davidshriver.me"
+  - family-names: "Elbaum"
+    given-names: "Sebastian"
+    orcid: "https://orcid.org/0000-0001-9592-1352"
+  - family-names: "Dwyer"
+    given-names: "Matthew"
+    orcid: "https://orcid.org/0000-0002-1937-1544"
+  doi: "10.1109/ASE51524.2021.00037"
+  title: "Distribution Models for Falsification and Verification of DNNs"
+  conference:
+    name: "ASE 2021"
+  collection-title: "2021 36th IEEE/ACM International Conference on Automated Software Engineering (ASE)"
+  publisher: "IEEE"
+  start: 317 # First page number
+  end: 329 # Last page number
+  month: 11
+  year: 2021
