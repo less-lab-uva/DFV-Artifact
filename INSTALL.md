@@ -9,6 +9,8 @@ Then begin the installation by running `./install.sh`. This will set up a python
 
 `./install.sh` will install DNNV and DNNF. For DNNV, three verifiers will be installed: Neurify, nnenum and Verinet. After the installation ends, you can check if DNNV was installed correctly by running `dnnv --help`. You should see the name of the 3 verifiers under the **'verifiers'** section. Also you can check if DNNF was installed correctly by running `dnnf --help`.
 
+> During installation, pip may output a couple ERROR messages about dependency resolution. These messages are only warnings, the dependencies installed by our script are compatible for running the studies in this artifact.
+
 `Verinet` uses `gurobi`, which requires a license, you can get an academic license for free at https://www.gurobi.com/academia/academic-program-and-licenses/. Once you have your license code, move to the DNNV folder that was created in the root of this repository, and execute
 
 `bin/gurobi902/linux64/bin/grbgetkey *License Code*`
