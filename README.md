@@ -1,6 +1,6 @@
 # DFV Artifact
 
-[[Paper](https://felipetoledo4815.github.io/files/publications/ASE21-DFV.pdf)] [[Video-presentation](https://www.youtube.com/watch?v=lbjmZEl8Ipc)]
+[[Paper](https://ieeexplore.ieee.org/document/9678590)] [[Appendix](https://felipetoledo4815.github.io/files/publications/ASE21-DFV-Appendix.pdf)] [[Video-presentation](https://www.youtube.com/watch?v=lbjmZEl8Ipc)]
 
 This is the artifact to accompany the ASE technical track submission "Distribution Models for Falsification and Verification of DNNs".
 
